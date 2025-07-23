@@ -1,0 +1,106 @@
+# ========================
+# 基础配置
+# ========================
+title: "Ulus in Void"      # 博客标题（显示在浏览器标签和页眉）
+description: "某人的学术笔记"  # 网站描述（用于SEO）
+baseurl: ""                 # 网站子路径（通常为空）
+url: "https://WarnWallen.github.io" # 替换 yourusername 为你的GitHub用户名
+timezone: Asia/Beijing     # 时区（国内推荐）
+
+# ========================
+# 作者信息
+# ========================
+author:
+  name: "Kun"              # 你的名字
+
+  github: "WarnWallen"   # GitHub用户名
+  # 可继续添加 twitter, linkedin 等社交账号
+
+# ========================
+# Jekyll 核心配置
+# ========================
+theme: minima               # 使用的主题（推荐 minima/cayman/architect）
+plugins:                    # 启用的插件
+  - jekyll-feed             # RSS订阅支持
+  - jekyll-seo-tag          # SEO优化
+  - jekyll-sitemap          # 网站地图
+
+markdown: kramdown          # Markdown解析引擎
+kramdown:
+  input: GFM                # 支持GitHub风格的Markdown
+  math_engine: mathjax      # 数学公式渲染引擎（重要！）
+  syntax_highlighter: rouge # 代码高亮
+
+# ========================
+# 目录结构
+# ========================
+collections:                # 自定义集合（用于非博客内容）
+  notes:
+    output: true            # 生成独立页面
+    permalink: /notes/:path # 访问路径
+
+# ========================
+# 学术功能配置
+# ========================
+# 数学公式全局启用（可在每篇文章单独覆盖）
+math: true
+
+# 文献引用系统（需额外安装 jekyll-scholar）
+# scholar:
+#   style: apa              # 引用格式（APA/MLA等）
+#   locale: en              # 语言
+
+# ========================
+# 主题定制配置
+# ========================
+# Minima 主题配置示例（其他主题配置不同）
+minima:
+  skin: auto                # 主题皮肤：light/dark/auto
+  date_format: "%Y-%m-%d"   # 日期格式
+  social_links:             # 社交链接
+    - platform: github
+      user_url: "https://github.com/yourusername"
+    - platform: email
+      user_url: "mailto:your.email@example.com"
+
+# ========================
+# 评论系统（选装）
+# ========================
+# Utterances 配置（基于GitHub Issues）
+utterances:
+  repo: yourusername/yourusername.github.io # 你的仓库
+  issue_term: pathname      # 评论关联方式
+  label: comments           # 评论标签
+  theme: github-light       # 主题风格
+
+# ========================
+# 谷歌分析（选装）
+# ========================
+# google_analytics: UA-XXXXX-X  # 替换为你的跟踪ID
+
+# ========================
+# 构建优化
+# ========================
+exclude:                   # 排除文件/目录
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - .gitignore
+  - README.md
+
+# 分页配置
+paginate: 5                 # 每页显示文章数
+paginate_path: "/page:num"  # 分页路径格式
+
+# ========================
+# 默认Front Matter配置
+# ========================
+defaults:
+  - scope:
+      path: ""             # 所有路径
+      type: "posts"        # 应用于文章
+    values:
+      layout: post         # 默认布局
+      toc: true            # 生成目录
+      categories: [学术笔记] # 默认分类
+      tags: []             # 默认标签（可每篇文章单独设置）

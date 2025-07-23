@@ -7,5 +7,4 @@ title: Ulus in Void
 
 
 
-[查看所有笔记](/posts/)
-[按分类查看笔记](/categories/)
+[查看所有笔记](/blog/)

@@ -1,6 +1,3 @@
-# 文件名：posts.md
-# 位置：项目根目录（与 _config.yml 同级）
-
 ---
 layout: page
 title: 所有笔记

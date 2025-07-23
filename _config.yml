@@ -4,7 +4,7 @@
 title: "Ulus in Void"      # 博客标题（显示在浏览器标签和页眉）
 description: "某人的学术笔记"  # 网站描述（用于SEO）
 baseurl: ""                 # 网站子路径（通常为空）
-url: "https://WarnWallen.github.io" # 替换 yourusername 为你的GitHub用户名
+url: "https://warnwallen.github.io" # 替换 yourusername 为你的GitHub用户名
 timezone: Asia/Beijing     # 时区（国内推荐）
 
 # ========================

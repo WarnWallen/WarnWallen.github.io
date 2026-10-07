@@ -9,11 +9,8 @@ url: "https://warnwallen.github.io" # 替换 yourusername 为你的GitHub用户�
 # ========================
 # 作者信息
 # ========================
-author:
-  name: "Kun"              # 你的名字
-
-  github: "WarnWallen"   # GitHub用户名
-  # 可继续添加 twitter, linkedin 等社交账号
+author: "Kun"                # 你的名字（页脚显示；Minima 2.5.1 此处只支持字符串）
+                             # 社交账号请配置在下方 minima.social_links
 
 # ========================
 # Jekyll 核心配置
@@ -37,6 +34,9 @@ collections:                # 自定义集合（用于非博客内容）
   notes:
     output: true            # 生成独立页面
     permalink: /notes/:path # 访问路径
+  mishi:                    # 《蒙古秘史》合璧本
+    output: true
+    permalink: /mishi/:path/
 
 # ========================
 # 学术功能配置
@@ -86,6 +86,7 @@ exclude:                   # 排除文件/目录
   - vendor
   - .gitignore
   - README.md
+  - 需要你上传的内容   # 总译等 docx 原稿（仅存档，不发布）
 
 # 分页配置
 paginate: 5                 # 每页显示文章数

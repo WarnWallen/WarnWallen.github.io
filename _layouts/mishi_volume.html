@@ -1,0 +1,37 @@
+---
+layout: page
+---
+{{ content }}
+
+{%- assign secs = site.mishi | where: "layout", "mishi_section" | where: "volume", page.volume | sort: "section" -%}
+{%- assign first_sec = secs | first -%}
+{%- assign last_sec = secs | last -%}
+{%- if secs.size > 0 -%}
+<p class="mishi-meta">本卷起讫：§{{ first_sec.section }}–§{{ last_sec.section }}，共 {{ secs.size }} 节。</p>
+<ul class="mishi-toc">
+  {%- for s in secs -%}
+  <li><a href="{{ s.url | relative_url }}">第{{ s.section }}节</a></li>
+  {%- endfor -%}
+</ul>
+{%- else -%}
+<p class="mishi-meta">（本卷小节待补）</p>
+{%- endif -%}
+
+{%- assign vols = site.mishi | where: "layout", "mishi_volume" | sort: "order" -%}
+{%- assign vfound = false -%}{%- assign vnext_done = false -%}
+{%- for v in vols -%}
+  {%- if vfound and vnext_done != true -%}{%- assign vnext = v -%}{%- assign vnext_done = true -%}{%- endif -%}
+  {%- if v.order == page.order -%}{%- assign vfound = true -%}
+  {%- else -%}{%- unless vfound -%}{%- assign vprev = v -%}{%- endunless -%}{%- endif -%}
+{%- endfor -%}
+<nav class="mishi-nav">
+  {%- if vprev %}<a href="{{ vprev.url | relative_url }}">← {{ vprev.title }}</a>{% endif -%}
+  <a href="{{ '/mishi/' | relative_url }}">总目</a>
+  {%- if vnext %}<a href="{{ vnext.url | relative_url }}">{{ vnext.title }} →</a>{% endif -%}
+</nav>
+
+<style>
+.mishi-meta{opacity:.75}
+.mishi-toc{list-style:none;padding:0;margin:1.5rem 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.4rem .8rem}
+.mishi-nav{display:flex;flex-wrap:wrap;gap:1.25rem;margin-top:2.5rem;border-top:1px solid rgba(128,128,128,.35);padding-top:1rem}
+</style>

@@ -1,0 +1,34 @@
+---
+layout: page
+---
+{%- assign vols = site.mishi | where: "layout", "mishi_volume" -%}
+{%- assign vol = vols | where: "volume", page.volume | first -%}
+<p class="mishi-breadcrumb">
+  <a href="{{ '/mishi/' | relative_url }}">《蒙古秘史》合璧本</a> ›
+  {%- if vol %} <a href="{{ vol.url | relative_url }}">{{ vol.title }}</a>{% else %}（卷待定）{% endif -%}
+  › 第{{ page.section }}节
+</p>
+
+<div class="mishi-text">
+{{ content }}
+</div>
+
+{%- assign secs = site.mishi | where: "layout", "mishi_section" | sort: "section" -%}
+{%- assign found = false -%}{%- assign next_done = false -%}
+{%- for s in secs -%}
+  {%- if found and next_done != true -%}{%- assign next_item = s -%}{%- assign next_done = true -%}{%- endif -%}
+  {%- if s.section == page.section -%}{%- assign found = true -%}
+  {%- else -%}{%- unless found -%}{%- assign prev_item = s -%}{%- endunless -%}{%- endif -%}
+{%- endfor -%}
+<nav class="mishi-nav">
+  {%- if prev_item %}<a href="{{ prev_item.url | relative_url }}">← 第{{ prev_item.section }}节</a>{% endif -%}
+  {%- if vol %}<a href="{{ vol.url | relative_url }}">返回{{ vol.title }}</a>{% endif -%}
+  <a href="{{ '/mishi/' | relative_url }}">总目</a>
+  {%- if next_item %}<a href="{{ next_item.url | relative_url }}">第{{ next_item.section }}节 →</a>{% endif -%}
+</nav>
+
+<style>
+.mishi-breadcrumb{font-size:.9em;opacity:.8;margin-bottom:1.5rem}
+.mishi-text{font-family:"SimSun","宋体","Songti SC","Noto Serif CJK SC",serif}
+.mishi-nav{display:flex;flex-wrap:wrap;gap:1.25rem;margin-top:2.5rem;border-top:1px solid rgba(128,128,128,.35);padding-top:1rem}
+</style>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>时间之轴 · 1162–1368</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <header>
+    <h1>时间之轴</h1>
+    <div class="sub">1162 成吉思汗诞生 —— 1368 明朝建立</div>
+  </header>
+
+  <section id="screen-start" class="screen on">
+    <div class="rules">
+      <b>玩法</b><br>
+      一、系统随机抽出两个历史事件，点选你认为<b>发生得更早</b>的一个。<br>
+      二、此后每轮抽出一个新事件，点击时间轴上的<b>「＋」空隙</b>，将其插入正确的位置。<br>
+      三、已落位的事件会翻开日期；日期精度不一（年／年月／年月日），插入正确区间即可——精度粗的事件与区间内事件相邻时，插任意一侧都算对。<br>
+      四、答错会揭示正确答案并将事件归位，累计<b>三次</b>错误，游戏结束。<br>
+      <b>计分</b>：答对得 100 分，连续答对每连击一层额外 +20 分（上限 +200）。
+    </div>
+    <button class="btn" id="btn-start">开始游戏</button>
+    <div id="best-line"></div>
+  </section>
+
+  <section id="screen-game" class="screen">
+    <div id="hud">
+      <div class="stat" id="hearts-box">生命 <span id="hearts"></span></div>
+      <div class="stat">得分 <b id="score">0</b></div>
+      <div class="stat" id="streak-box">连击 <b id="streak">×0</b></div>
+      <div id="deck-left"></div>
+    </div>
+    <div id="prompt"></div>
+    <div id="pending-wrap"></div>
+    <div id="choices"></div>
+    <div id="tl-outer">
+      <div class="tl-title">时 间 轴</div>
+      <div id="tl-scroll"></div>
+    </div>
+  </section>
+
+  <section id="screen-over" class="screen">
+    <div id="over-title"></div>
+    <div id="over-sub"></div>
+    <div id="stats"></div>
+    <div style="text-align:center;color:var(--dim);font-size:13px;letter-spacing:3px;margin-bottom:8px">你 最终 排 定 的 时 间 轴</div>
+    <div id="review"></div>
+    <button class="btn" id="btn-restart">再来一局</button>
+  </section>
+
+  <div id="toast"></div>
+</div>
+
+<script src="events.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

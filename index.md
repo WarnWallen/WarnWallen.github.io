@@ -8,6 +8,7 @@ title: Ulus in Void
 <p class="home-entries">
   <a class="home-btn" href="/blog/">查看所有笔记</a>
   <a class="home-btn" href="/mishi/">《蒙古秘史》合璧本</a>
+  <a class="home-btn" href="/timeline/">小游戏：排时间轴</a>
 </p>
 
 <style>

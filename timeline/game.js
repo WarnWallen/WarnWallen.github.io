@@ -1,11 +1,27 @@
 
 const REGIONS={"中国":"cn","蒙古":"mg","东亚":"ea","欧洲":"eu","伊斯兰":"is","其他":"ot"};
+const REGION_SUBS={"中国":"宋·金·西夏·西藏","蒙古":"蒙古帝国及元","东亚":"日本·朝鲜","欧洲":"中世纪欧洲","伊斯兰":"伊斯兰世界","其他":"美洲·非洲·东南亚"};
+let regionSel={"中国":true,"蒙古":true,"东亚":true,"欧洲":true,"伊斯兰":true,"其他":true};
+function loadSel(){
+  try{
+    const s=JSON.parse(localStorage.getItem("timeline-region-sel")||"null");
+    if(s&&typeof s==="object")Object.keys(REGIONS).forEach(r=>{if(r in s)regionSel[r]=!!s[r];});
+  }catch(err){}
+}
+function saveSel(){
+  try{localStorage.setItem("timeline-region-sel",JSON.stringify(regionSel));}catch(err){}
+}
+function buildDeck(){
+  const sel=new Set(Object.keys(regionSel).filter(r=>regionSel[r]));
+  return EVENTS.filter(e=>sel.has(e.r));
+}
 function parseEvents(source){
   const out=[];
   const seen={};
   source.split("\n").forEach(function(line){
     line=line.trim();
     if(!line||line.charAt(0)==="#")return;
+    line=line.replace(/｜/g,"|");
     const parts=line.split("|");
     if(parts.length<3){console.warn("[题库] 格式应为「日期 | 地区 | 标题」： "+line);return;}
     const ds=parts[0].trim();
@@ -68,7 +84,7 @@ function renderHUD(){
   $("#score").textContent=state.score;
   $("#streak").textContent="×"+state.streak;
   $("#streak-box").classList.toggle("hot",state.streak>=3);
-  $("#deck-left").textContent="牌堆剩余 "+(state.deck.length+(state.phase==="insert"?1:0))+" / "+EVENTS.length;
+  $("#deck-left").textContent="牌堆剩余 "+(state.deck.length+(state.phase==="insert"?1:0))+" / "+(state.total||EVENTS.length);
 }
 
 function drawCard(avoidYears){
@@ -117,7 +133,8 @@ function renderTimeline(gapsClickable,wrongPick,rightPick,newIdx){
 }
 
 function startGame(){
-  state={deck:shuffle(EVENTS),timeline:[],lives:3,score:0,streak:0,bestStreak:0,rounds:0,correct:0,lock:false,pending:null,phase:"compare"};
+  const pool=buildDeck();
+  state={deck:shuffle(pool),total:pool.length,timeline:[],lives:3,score:0,streak:0,bestStreak:0,rounds:0,correct:0,lock:false,pending:null,phase:"compare"};
   show("screen-game");
   renderHUD();
   nextCompare();
@@ -269,6 +286,37 @@ function refreshBestLine(){
   $("#best-line").textContent=best>0?"历史最高分："+best:"";
 }
 
-$("#btn-start").onclick=startGame;
-$("#btn-restart").onclick=startGame;
+function renderPickGrid(){
+  const grid=$("#pick-grid");
+  grid.innerHTML="";
+  const counts={};
+  EVENTS.forEach(e=>counts[e.r]=(counts[e.r]||0)+1);
+  Object.keys(REGIONS).forEach(r=>{
+    const b=el("button","pick "+REGIONS[r]+(regionSel[r]?" on":""));
+    b.appendChild(el("span","pk-name",r));
+    b.appendChild(el("span","pk-sub",REGION_SUBS[r]));
+    b.appendChild(el("span","pk-n",(counts[r]||0)+" 张"));
+    b.appendChild(el("span","pk-tick","✓"));
+    b.onclick=()=>{regionSel[r]=!regionSel[r];saveSel();renderPickGrid();};
+    grid.appendChild(b);
+  });
+  updatePickCount();
+}
+function updatePickCount(){
+  $("#pick-count").textContent="已选 "+buildDeck().length+" 张事件牌";
+}
+function initPickUI(){
+  loadSel();
+  renderPickGrid();
+  $("#pick-all").onclick=()=>{Object.keys(regionSel).forEach(r=>regionSel[r]=true);saveSel();renderPickGrid();};
+  $("#pick-none").onclick=()=>{Object.keys(regionSel).forEach(r=>regionSel[r]=false);saveSel();renderPickGrid();};
+}
+function tryStart(){
+  if(!buildDeck().length){toast("请至少选择一个卡组","bad",1600);return;}
+  startGame();
+}
+
+$("#btn-start").onclick=tryStart;
+$("#btn-restart").onclick=tryStart;
+initPickUI();
 refreshBestLine();
